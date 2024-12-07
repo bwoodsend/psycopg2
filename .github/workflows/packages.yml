@@ -137,16 +137,16 @@ jobs:
       fail-fast: false
       matrix:
         # These archs require an Apple M1 runner: [arm64, universal2]
-        arch: [x86_64]
-        pyver: [cp38, cp313]
-        macver: ["12"]
+#        arch: [x86_64]
+#        pyver: [cp38, cp313]
+#        macver: ["12"]
         include:
           - arch: arm64
             pyver: cp310
             macver: "14"
-          - arch: arm64
-            pyver: cp313
-            macver: "14"
+#          - arch: arm64
+#            pyver: cp313
+#            macver: "14"
 
     steps:
       - name: Checkout repos
@@ -154,6 +154,9 @@ jobs:
 
       - name: Build dependencies
         run: ./scripts/build/build_libpq.sh
+
+      - if: always()
+        uses: mxschmitt/action-tmate@v3
 
       - name: Show dependency tree
         run: otool -L /tmp/libpq.build/lib/*.dylib
