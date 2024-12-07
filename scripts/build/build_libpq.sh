@@ -62,11 +62,11 @@ case "$ID" in
         ;;
 
     macos)
-        brew install automake
+        brew install automake m4 libtool
         # If available, libpq seemingly insists on linking against homebrew's
         # openssl no matter what so remove it. Since homebrew's curl depends on
         # it, force use of system curl.
-        brew uninstall --force --ignore-dependencies openssl m4
+        brew uninstall --force --ignore-dependencies openssl gettext
         curl="/usr/bin/curl"
         # The deployment target should be <= to that of the oldest supported Python version.
         # e.g. https://www.python.org/downloads/release/python-380/
