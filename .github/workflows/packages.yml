@@ -10,7 +10,7 @@ env:
 
 jobs:
   sdist:  # {{{
-    if: true
+    if: false
     strategy:
       fail-fast: false
       matrix:
@@ -59,7 +59,7 @@ jobs:
   # }}}
 
   linux:  # {{{
-    if: true
+    if: false
 
     strategy:
       fail-fast: false
@@ -140,7 +140,7 @@ jobs:
       matrix:
         # These archs require an Apple M1 runner: [arm64, universal2]
         arch: [x86_64, arm64]
-        pyver: [cp39, cp310, cp311, cp312, cp313]
+        pyver: [cp39]#, cp310, cp311, cp312, cp313]
 
     steps:
       - name: Checkout repos
@@ -157,7 +157,6 @@ jobs:
         env:
           CIBW_BUILD: ${{matrix.pyver}}-macosx_${{matrix.arch}}
           CIBW_ARCHS_MACOS: ${{matrix.arch}}
-          MACOSX_ARCHITECTURE: ${{matrix.arch}}
           CIBW_BEFORE_ALL_MACOS: ./scripts/build/wheel_macos_before_all.sh
           CIBW_TEST_COMMAND: >-
             export PYTHONPATH={project} &&
@@ -167,6 +166,7 @@ jobs:
             PACKAGE_NAME=psycopg2-binary
             PSYCOPG2_TESTDB=postgres
             PATH="/tmp/libpq.build/bin:$PATH"
+            MACOSX_ARCHITECTURE=${{matrix.arch}}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -178,7 +178,7 @@ jobs:
 
   windows:  # {{{
     runs-on: windows-latest
-    if: true
+    if: false
 
     strategy:
       fail-fast: false
